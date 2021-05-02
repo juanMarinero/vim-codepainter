@@ -48,6 +48,14 @@ There are some cases where it's hard to delete a paint unless you find the exact
 
 Also, there are some cases in which the saved marks aren't loaded automatically when you open a file. In this cases, just using the command "PainterLoadMarks" will solve the issue.
 
+### Disable default settings
+Set `g:loaded_painter_default_mappings` to `0` before installing it. Example:
+
+    let g:loaded_painter_default_mappings = 0
+    Plug 'lpinilla/vim-codepainter'
+    # custome mappings:
+    vnoremap <silent> <F1> :<c-u> call codepainter#paintText(visualmode())<cr>
+
 ### Bugs
 
 If you find a bug, feel free to open an issue about it!
