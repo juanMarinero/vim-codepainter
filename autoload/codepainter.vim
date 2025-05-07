@@ -218,6 +218,7 @@ func! codepainter#SaveMarks(...) abort
     let l:path = a:0 == 0 ? expand("%") : substitute(a:1, "\"", "","g")
     let l:aux = fnamemodify(expand(l:path), ':e')
     if len(l:aux) == 0
+        " If no extension add .json
         let l:path = l:path . ".json"
     else
         let l:path = substitute(l:path, expand("%:e"), "json", "")
@@ -234,6 +235,7 @@ func! codepainter#LoadMarks(...) abort
     if a:0 == 0
         let l:aux = fnamemodify(expand(l:path), ':e')
         if len(l:aux) == 0
+            " If no extension add .json
             let l:path = l:path . ".json"
         else
             let l:path = substitute(l:path, expand("%:e"), "json", "")
