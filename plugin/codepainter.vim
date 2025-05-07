@@ -15,5 +15,5 @@ command! -nargs=1 PainterPickColor          silent! call codepainter#ChangeColor
 command! -nargs=1 PainterPickColorByName    silent! call codepainter#ChangeColorByName(<f-args>)
 command! -nargs=0 PainterEraseAll           silent! call codepainter#EraseAll()
 command! -nargs=? PainterEraseLine          silent! call codepainter#EraseLine(<f-args>)
-command! -nargs=? PainterSaveMarks          silent! call codepainter#SaveMarks(<f-args>)
+command! -nargs=? PainterSaveMarks          call codepainter#SaveMarks(<f-args>)
 command! -nargs=? PainterLoadMarks          silent! call codepainter#LoadMarks(<f-args>)

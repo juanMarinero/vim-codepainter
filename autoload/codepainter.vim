@@ -21,6 +21,7 @@ let g:marks = {}
 let g:vim_index = 0
 let g:navigation_index = 0
 let g:has_nvim = has('nvim')
+let g:codepainter_file_keep_original_extension = 1
 
 "dictionary holding the markings folowing this structure
 "marks = {
@@ -221,7 +222,26 @@ func! codepainter#SaveMarks(...) abort
         " If no extension add .json
         let l:path = l:path . ".json"
     else
-        let l:path = substitute(l:path, expand("%:e"), "json", "")
+        if l:aux ==# 'json'
+            " Path already ends with .json
+            " Potential overwrite if script with marks is also a JSON
+            " Opt. A: echo error and return
+            if a:0 == 0
+                echom "Current script is JSON"
+                echom "Pass an arg to PainterSaveMarks to store the codepainters"
+                return
+            endif
+            " Opt. B: replace all next '.json' with '_codepainter.json'
+            " (not coded)
+        else
+            if g:codepainter_file_keep_original_extension
+                " Add .json to path keeping original extension
+                let l:path = expand('%:p') . '.json'
+            else
+                " Replace extension with .json
+                let l:path = expand('%:p:r') . '.json'
+            endif
+        endif
     endif
     let jsonString = json_encode(g:marks)
     execute ("redir! >" . l:path)
@@ -238,7 +258,13 @@ func! codepainter#LoadMarks(...) abort
             " If no extension add .json
             let l:path = l:path . ".json"
         else
-            let l:path = substitute(l:path, expand("%:e"), "json", "")
+            if g:codepainter_file_keep_original_extension
+                " Add .json to path keeping original extension
+                let l:path = expand('%:p') . '.json'
+            else
+                " Replace extension with .json
+                let l:path = expand('%:p:r') . '.json'
+            endif
         endif
     endif
     let l:file = readfile(l:path)
